@@ -93,22 +93,35 @@ public class Tray {
         for (Project project: projects) {
             PopupMenu projectPopup = new PopupMenu(project.getName());
 
+            MenuItem itemOpenFolder = new MenuItem("Abrir pasta");
+            itemOpenFolder.addActionListener(onOpenFolder(project));
             MenuItem itemOpenInVSCode = new MenuItem("Abrir com VS Code");
             itemOpenInVSCode.addActionListener(onOpenWithVSCode(project));
             MenuItem itemRemove = new MenuItem("Remover");
             itemRemove.addActionListener(onRemoveItem(project));
 
+            projectPopup.add(itemOpenFolder);
             projectPopup.add(itemOpenInVSCode);
             projectPopup.add(itemRemove);
 
             popupMenu.add(projectPopup);
         }
     }
+    
+    private ActionListener onOpenFolder (Project project) {
+        return e -> {
+            try {
+                Terminal.openFolder(project.getPath());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        };
+    }
 
     private ActionListener onOpenWithVSCode (Project project) {
         return e -> {
             try {
-                Terminal.exec(project.getPath());
+                Terminal.openVSCode(project.getPath());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

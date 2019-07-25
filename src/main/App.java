@@ -18,8 +18,8 @@ public class App {
             Tray tray = new Tray();
             tray.show();
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Desculpe, mas s√≥ uma aplica√ß√£o pode ser executada por vez.");
+        	String errorMessage = "Erro: " + e.getMessage() + " \nVerifique se o aplicativo j· est· aberto";
+            JOptionPane.showMessageDialog(null, errorMessage, "Erro", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }
