@@ -18,7 +18,8 @@ public class App {
             Tray tray = new Tray();
             tray.show();
         } catch (Exception e) {
-        	String errorMessage = "Erro: " + e.getMessage() + " \nVerifique se o aplicativo já está aberto";
+            e.printStackTrace();
+        	String errorMessage = "Erro: " + e.getMessage() + " \nVerifique se o aplicativo ja esta aberto";
             JOptionPane.showMessageDialog(null, errorMessage, "Erro", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }

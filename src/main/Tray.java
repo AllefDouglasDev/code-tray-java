@@ -2,6 +2,7 @@ package main;
 
 import database.ProjectDAO;
 import models.Project;
+import utils.OSValidator;
 import utils.Terminal;
 
 import javax.imageio.ImageIO;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Tray {
-    private final TrayIcon trayIcon;
+    private TrayIcon trayIcon;
     private SystemTray tray;
     private ArrayList<Project> projects;
     private ProjectDAO projectDAO;
@@ -22,8 +23,7 @@ public class Tray {
         loadProjects();
 
         tray = SystemTray.getSystemTray();
-        trayIcon = new TrayIcon(getIcon("images/bulb.gif"), "Code Tray", renderPopupMenu());
-        trayIcon.setImageAutoSize(true);
+        renderTrayIcon();
     }
 
     public void show() {
@@ -54,6 +54,12 @@ public class Tray {
         }
     }
 
+    private TrayIcon renderTrayIcon() {
+        trayIcon = new TrayIcon(getIcon("images/bulb.gif"), "Code Tray", renderPopupMenu());
+        trayIcon.setImageAutoSize(true);
+        return trayIcon;
+    }
+
     private PopupMenu renderPopupMenu() {
         PopupMenu popupMenu = new PopupMenu("Menu de Opções");
 
@@ -63,6 +69,7 @@ public class Tray {
         exitItem.addActionListener(onExit());
 
         popupMenu.add(addProjectItem);
+        System.out.println(projects.size());
         if (projects.size() > 0) {
             popupMenu.addSeparator();
             renderProjects(popupMenu);
@@ -71,22 +78,6 @@ public class Tray {
         popupMenu.add(exitItem);
 
         return popupMenu;
-    }
-
-    private ActionListener onExit () {
-        return e -> System.exit(0);
-    }
-
-    private ActionListener onAddNewProject () {
-        return e -> {
-            AddProjectView addProjectView = new AddProjectView((path, name) -> {
-                Project project = new Project(45, path, name);
-                projectDAO.store(project);
-                projects.add(project);
-                updateTray();
-            });
-            addProjectView.show();
-        };
     }
 
     private void renderProjects (PopupMenu popupMenu) {
@@ -128,15 +119,41 @@ public class Tray {
         };
     }
 
+    private ActionListener onExit () {
+        return e -> System.exit(0);
+    }
+
+    private ActionListener onAddNewProject () {
+        return e -> {
+            AddProjectView addProjectView = new AddProjectView((path, name) -> {
+                Project project = new Project(45, path, name);
+                projects.add(project);
+                updateTray();
+                projectDAO.store(project);
+            });
+            addProjectView.show();
+        };
+    }
+
     private ActionListener onRemoveItem (Project project) {
         return e -> {
-            projectDAO.delete(project.getId());
             projects.remove(project);
             updateTray();
+            projectDAO.delete(project.getId());
         };
     }
 
     private void updateTray() {
-        tray.getTrayIcons()[0].setPopupMenu(renderPopupMenu());
+        if (OSValidator.isWindows()) {
+            tray.getTrayIcons()[0].setPopupMenu(renderPopupMenu());
+            return;
+        }
+
+        if (OSValidator.isMac()) {
+            tray.remove(trayIcon);
+            renderTrayIcon();
+            show();
+            return;
+        }
     }
 }
