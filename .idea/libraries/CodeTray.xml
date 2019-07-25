@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CodeTray">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/CodeTray.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

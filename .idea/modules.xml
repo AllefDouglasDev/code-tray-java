@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SysTray.iml" filepath="$PROJECT_DIR$/SysTray.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code-tray-java.iml" filepath="$PROJECT_DIR$/code-tray-java.iml" />
     </modules>
   </component>
 </project>
