@@ -69,7 +69,6 @@ public class Tray {
         exitItem.addActionListener(onExit());
 
         popupMenu.add(addProjectItem);
-        System.out.println(projects.size());
         if (projects.size() > 0) {
             popupMenu.addSeparator();
             renderProjects(popupMenu);

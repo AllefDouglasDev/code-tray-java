@@ -5,12 +5,34 @@ public class Terminal {
         ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", command);
         pb.start();
     }
-    
-    public static void openVSCode(String path)  throws Exception {
-    	Terminal.executeWindows("code " + path);
+
+    public static void executeMac(String command) throws Exception {
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
+        pb.start();
     }
     
-    public static void openFolder(String path)  throws Exception {
-    	Terminal.executeWindows("start " + path);
+    public static void openVSCode(String path) throws Exception {
+    	if (OSValidator.isWindows()) {
+            executeWindows("code " + path);
+            return;
+        }
+
+        if (OSValidator.isMac()) {
+            executeMac("code " + path);
+            return;
+        }
+
+    }
+    
+    public static void openFolder(String path) throws Exception {
+        if (OSValidator.isWindows()) {
+            executeWindows("start " + path);
+            return;
+        }
+
+        if (OSValidator.isMac()) {
+            executeMac("open " + path);
+            return;
+        }
     }
 }
