@@ -35,7 +35,7 @@ public class Tray {
         try {
             tray.add(trayIcon);
         } catch (AWTException e) {
-            System.err.println("Erro, TrayIcon não sera adicionado.");
+            System.err.println("Erro, TrayIcon nao sera adicionado.");
             e.printStackTrace();
         }
     }
@@ -61,7 +61,7 @@ public class Tray {
     }
 
     private PopupMenu renderPopupMenu() {
-        PopupMenu popupMenu = new PopupMenu("Menu de Opções");
+        PopupMenu popupMenu = new PopupMenu("Menu");
 
         MenuItem addProjectItem = new MenuItem("Adicionar projeto");
         addProjectItem.addActionListener(onAddNewProject());
@@ -85,7 +85,7 @@ public class Tray {
 
             MenuItem itemOpenFolder = new MenuItem("Abrir pasta");
             itemOpenFolder.addActionListener(onOpenFolder(project));
-            MenuItem itemOpenInVSCode = new MenuItem("Abrir com VS Code");
+            MenuItem itemOpenInVSCode = new MenuItem("Abrir com VSCode");
             itemOpenInVSCode.addActionListener(onOpenWithVSCode(project));
             MenuItem itemRemove = new MenuItem("Remover");
             itemRemove.addActionListener(onRemoveItem(project));
@@ -95,6 +95,20 @@ public class Tray {
             projectPopup.add(itemRemove);
 
             popupMenu.add(projectPopup);
+        }
+    }
+    
+    private void updateTray() {
+        if (OSValidator.isWindows()) {
+            tray.getTrayIcons()[0].setPopupMenu(renderPopupMenu());
+            return;
+        }
+
+        if (OSValidator.isMac()) {
+            tray.remove(trayIcon);
+            renderTrayIcon();
+            show();
+            return;
         }
     }
     
@@ -140,19 +154,5 @@ public class Tray {
             updateTray();
             projectDAO.delete(project.getId());
         };
-    }
-
-    private void updateTray() {
-        if (OSValidator.isWindows()) {
-            tray.getTrayIcons()[0].setPopupMenu(renderPopupMenu());
-            return;
-        }
-
-        if (OSValidator.isMac()) {
-            tray.remove(trayIcon);
-            renderTrayIcon();
-            show();
-            return;
-        }
     }
 }

@@ -70,7 +70,7 @@ public class ProjectDAO {
         ArrayList<Project> products = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM projects WHERE deleted = 0";
+            String query = "SELECT * FROM projects WHERE deleted = 0 ORDER BY name ASC";
             stmt = conn.prepareStatement(query);
             rs = stmt.executeQuery();
 
