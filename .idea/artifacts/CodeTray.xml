@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CodeTray">
+    <output-path>$PROJECT_DIR$/out/artifacts/CodeTray</output-path>
+    <root id="archive" name="CodeTray.jar">
+      <element id="library" level="project" name="lib" />
+    </root>
+  </artifact>
+</component>
