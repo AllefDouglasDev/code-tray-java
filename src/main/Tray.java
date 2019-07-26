@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Tray {
     private TrayIcon trayIcon;
@@ -28,7 +27,7 @@ public class Tray {
     }
 
     public void show() {
-        if (! SystemTray.isSupported()) {
+        if (!SystemTray.isSupported()) {
             JOptionPane.showMessageDialog(null, "Recurso ainda nao esta disponivel pra o seu sistema");
             return;
         }
@@ -56,7 +55,7 @@ public class Tray {
     }
 
     private TrayIcon renderTrayIcon() {
-        trayIcon = new TrayIcon(getIcon("images/bulb.gif"), "Code Tray", renderPopupMenu());
+        trayIcon = new TrayIcon(getIcon("images/icon.png"), "Code Tray", renderPopupMenu());
         trayIcon.setImageAutoSize(true);
         return trayIcon;
     }
